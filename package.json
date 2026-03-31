@@ -1,0 +1,15 @@
+{
+  "name": "mainul-x-api",
+  "version": "1.0.0",
+  "description": "YouTube Downloader API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
