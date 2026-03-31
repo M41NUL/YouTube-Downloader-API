@@ -1,6 +1,6 @@
 FROM node:18
 
-# Install system dependencies
+# Install required packages
 RUN apt-get update && apt-get install -y \
     ffmpeg \
     python3 \
@@ -8,20 +8,24 @@ RUN apt-get update && apt-get install -y \
     python3-venv \
     && rm -rf /var/lib/apt/lists/*
 
-# Create virtual environment (IMPORTANT)
-RUN python3 -m venv /opt/venv
+# Create virtual environment
+RUN python3 -m venv /venv
 
-# Activate venv and install yt-dlp inside it
-RUN /opt/venv/bin/pip install --no-cache-dir yt-dlp
+# Install yt-dlp inside venv
+RUN /venv/bin/pip install --no-cache-dir yt-dlp
 
-# Add venv to PATH
-ENV PATH="/opt/venv/bin:$PATH"
+# Set PATH so yt-dlp works globally
+ENV PATH="/venv/bin:$PATH"
 
+# Work directory
 WORKDIR /app
 
+# Install node dependencies
 COPY package*.json ./
 RUN npm install
 
+# Copy project files
 COPY . .
 
+# Start server
 CMD ["node", "server.js"]
